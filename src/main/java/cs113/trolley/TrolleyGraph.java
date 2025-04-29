@@ -81,7 +81,6 @@ class TrolleyGraph {
         return null; // No path found
     }
 
-    // TIP: this will make Dijkstra's a little easier
     // Helper method to reconstruct the path from start to end using the parent map
     private List<String> reconstructPath(Map<String, String> parentMap, String start, String end) {
         List<String> path = new ArrayList<>();

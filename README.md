@@ -24,9 +24,11 @@ In `TrolleyGraph` implement a Breadth First Search (BFS) algorithm either iterat
 #### 2) Mark start as visted
 #### 3) While queue is not empty:
 #### &nbsp;&nbsp; A) Dequeue a node
-#### &nbsp;&nbsp; B) For each neighbor, if not visited:
-#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a) mark visited
+#### &nbsp;&nbsp; B) If the node is the end, reconstructPath
+#### &nbsp;&nbsp; C) For each neighbor, if not visited:
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a) mark visited & store in the parentMap
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a) enqueue
+#### List<String> reconstructPath(Map<String, String> parentMap, String start, String end)
 #### Calculate the Big O()
 (Tip: use V for vertices and E for edges!)
 
@@ -41,8 +43,10 @@ In `TrolleyGraph` implement a Depth First Search (DFS) algorithm that functions 
 #### 1) Create an empty stack and push start
 #### 2) While stack is not empty:
 #### &nbsp;&nbsp; A) Pop the node from the stack
-#### &nbsp;&nbsp; B) If not visited, mark visited
-#### &nbsp;&nbsp; C) For each neighbor, if not visited, push to the stack
+#### &nbsp;&nbsp; B) If the node is the end, reconstructPath
+#### &nbsp;&nbsp; C) If not visited, mark visited & store in the parentMap
+#### &nbsp;&nbsp; D) For each neighbor, if not visited, recursively run DFS
+#### List<String> reconstructPath(Map<String, String> parentMap, String start, String end)
 #### Calculate the Big O()
 
 When complete, you should see a result like this:
@@ -60,6 +64,8 @@ In `TrolleyGraph` implement a Dijkstra's Algorithm.
 #### &nbsp;&nbsp; B) If the node's distance is less than the current shortest for that node:
 #### &nbsp;&nbsp;&nbsp;&nbsp; a) recalculate distances for neighbors and if shorter than previously found:
 #### &nbsp;&nbsp;&nbsp;&nbsp; b) push neighbors to the heap
+#### 4) Rebuild the parentMap using the shortest paths discovered
+#### List<String> reconstructPath(Map<String, String> parentMap, String start, String end)
 
 #### Calculate the Big O() 
 
