@@ -1,5 +1,5 @@
-// SubwayGraph Lab for IntelliJ and JavaFX
-// Introduction to Graph Theory through Subway Map Visualization
+// trolleyGraph Lab for IntelliJ and JavaFX
+// Introduction to Graph Theory through trolley Map Visualization
 
 package cs113.trolley;
 
@@ -19,8 +19,8 @@ import java.util.*;
 
 public class TrolleyGraphLab extends Application {
 
-    // The Graph represents the subway system
-    private TrolleyGraph subwayGraph;
+    // The Graph represents the trolley system
+    private TrolleyGraph trolleyGraph;
 
     // UI components
     private Canvas mapCanvas;
@@ -41,16 +41,16 @@ public class TrolleyGraphLab extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // Initialize the subway graph
-        subwayGraph = new TrolleyGraph();
+        // Initialize the trolley graph
+        trolleyGraph = new TrolleyGraph();
 
         // Create sample data - students can modify this
-        createSampleSubwaySystem();
+        createSampletrolleySystem();
 
         // Set up the UI
         BorderPane root = new BorderPane();
 
-        // Canvas for drawing the subway map
+        // Canvas for drawing the trolley map
         mapCanvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         gc = mapCanvas.getGraphicsContext2D();
 
@@ -72,12 +72,12 @@ public class TrolleyGraphLab extends Application {
         // Create the scene
         Scene scene = new Scene(root, 1000, 700);
 
-        primaryStage.setTitle("Subway Graph Lab");
+        primaryStage.setTitle("Trolley Graph Lab");
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        // Draw the initial subway map
-        drawSubwayMap();
+        // Draw the initial trolley map
+        drawtrolleyMap();
 
         // Update the station combo boxes
         updateStationCombos();
@@ -110,11 +110,11 @@ public class TrolleyGraphLab extends Application {
                 int y = Integer.parseInt(yCoordField.getText());
 
                 if (name != null && !name.trim().isEmpty()) {
-                    subwayGraph.addStation(name, x, y);
+                    trolleyGraph.addStation(name, x, y);
                     stationNameField.clear();
                     xCoordField.clear();
                     yCoordField.clear();
-                    drawSubwayMap();
+                    drawtrolleyMap();
                     updateStationCombos();
                     outputConsole.appendText("Added station: " + name + "\n");
                 }
@@ -152,8 +152,8 @@ public class TrolleyGraphLab extends Application {
                 Color routeColor = routeColorPicker.getValue();
 
                 if (from != null && to != null && !from.equals(to)) {
-                    subwayGraph.addRoute(from, to, weight, routeColor);
-                    drawSubwayMap();
+                    trolleyGraph.addRoute(from, to, weight, routeColor);
+                    drawtrolleyMap();
                     routeWeightField.clear();
                     outputConsole.appendText("Added route: " + from + " → " + to + " (Weight: " + weight + ")\n");
                 }
@@ -194,7 +194,7 @@ public class TrolleyGraphLab extends Application {
                 List<String> path = traverseGraph(from, to, algorithm);
 
                 // Clear previous paths
-                drawSubwayMap();
+                drawtrolleyMap();
 
                 // Draw the path
                 if (path != null && path.size() > 1) {
@@ -232,21 +232,21 @@ public class TrolleyGraphLab extends Application {
     }
 
     private void updateStationCombos() {
-        Set<String> stations = subwayGraph.getStationNames();
+        Set<String> stations = trolleyGraph.getStationNames();
         startStationCombo.getItems().clear();
         endStationCombo.getItems().clear();
         startStationCombo.getItems().addAll(stations);
         endStationCombo.getItems().addAll(stations);
     }
 
-    private void drawSubwayMap() {
+    private void drawtrolleyMap() {
         // Clear the canvas
         gc.clearRect(0, 0, mapCanvas.getWidth(), mapCanvas.getHeight());
 
         // Draw all routes (edges)
-        for (TrolleyRoute route : subwayGraph.getRoutes()) {
-            TrolleyStation from = subwayGraph.getStationByName(route.getFromStation());
-            TrolleyStation to = subwayGraph.getStationByName(route.getToStation());
+        for (TrolleyRoute route : trolleyGraph.getRoutes()) {
+            TrolleyStation from = trolleyGraph.getStationByName(route.getFromStation());
+            TrolleyStation to = trolleyGraph.getStationByName(route.getToStation());
 
             if (from != null && to != null) {
                 gc.setStroke(route.getColor());
@@ -264,7 +264,7 @@ public class TrolleyGraphLab extends Application {
         }
 
         // Draw all stations (nodes)
-        for (TrolleyStation station : subwayGraph.getStations()) {
+        for (TrolleyStation station : trolleyGraph.getStations()) {
             gc.setFill(Color.WHITE);
             gc.fillOval(station.getX() - STATION_RADIUS, station.getY() - STATION_RADIUS,
                     STATION_RADIUS * 2, STATION_RADIUS * 2);
@@ -287,8 +287,8 @@ public class TrolleyGraphLab extends Application {
         gc.setLineWidth(5);
 
         for (int i = 0; i < path.size() - 1; i++) {
-            TrolleyStation from = subwayGraph.getStationByName(path.get(i));
-            TrolleyStation to = subwayGraph.getStationByName(path.get(i + 1));
+            TrolleyStation from = trolleyGraph.getStationByName(path.get(i));
+            TrolleyStation to = trolleyGraph.getStationByName(path.get(i + 1));
 
             if (from != null && to != null) {
                 gc.strokeLine(from.getX(), from.getY(), to.getX(), to.getY());
@@ -296,8 +296,8 @@ public class TrolleyGraphLab extends Application {
         }
 
         // Highlight start and end stations
-        TrolleyStation start = subwayGraph.getStationByName(path.get(0));
-        TrolleyStation end = subwayGraph.getStationByName(path.get(path.size() - 1));
+        TrolleyStation start = trolleyGraph.getStationByName(path.get(0));
+        TrolleyStation end = trolleyGraph.getStationByName(path.get(path.size() - 1));
 
         if (start != null) {
             gc.setFill(Color.GREEN);
@@ -323,40 +323,40 @@ public class TrolleyGraphLab extends Application {
     private List<String> traverseGraph(String start, String end, String algorithm) {
         switch (algorithm) {
             case "BFS":
-                return subwayGraph.breadthFirstSearch(start, end);
+                return trolleyGraph.breadthFirstSearch(start, end);
             case "DFS":
-                return subwayGraph.depthFirstSearch(start, end);
+                return trolleyGraph.depthFirstSearch(start, end);
             case "DIJKSTRA":
-                return subwayGraph.dijkstra(start, end);
+                return trolleyGraph.dijkstra(start, end);
             default:
                 return null;
         }
     }
 
-    private void createSampleSubwaySystem() {
+    private void createSampletrolleySystem() {
         // Add some sample stations
-        subwayGraph.addStation("Central", 400, 300);
-        subwayGraph.addStation("North", 400, 100);
-        subwayGraph.addStation("South", 400, 500);
-        subwayGraph.addStation("East", 600, 300);
-        subwayGraph.addStation("West", 200, 300);
-        subwayGraph.addStation("Northeast", 550, 150);
-        subwayGraph.addStation("Northwest", 250, 150);
-        subwayGraph.addStation("Southeast", 550, 450);
-        subwayGraph.addStation("Southwest", 250, 450);
+        trolleyGraph.addStation("Central", 400, 300);
+        trolleyGraph.addStation("North", 400, 100);
+        trolleyGraph.addStation("South", 400, 500);
+        trolleyGraph.addStation("East", 600, 300);
+        trolleyGraph.addStation("West", 200, 300);
+        trolleyGraph.addStation("Northeast", 550, 150);
+        trolleyGraph.addStation("Northwest", 250, 150);
+        trolleyGraph.addStation("Southeast", 550, 450);
+        trolleyGraph.addStation("Southwest", 250, 450);
 
         // Add some sample routes
-        subwayGraph.addRoute("Central", "North", 3, Color.RED);
-        subwayGraph.addRoute("Central", "South", 4, Color.RED);
-        subwayGraph.addRoute("Central", "East", 2, Color.BLUE);
-        subwayGraph.addRoute("Central", "West", 2, Color.BLUE);
-        subwayGraph.addRoute("North", "Northeast", 1, Color.GREEN);
-        subwayGraph.addRoute("North", "Northwest", 1, Color.GREEN);
-        subwayGraph.addRoute("East", "Northeast", 2, Color.ORANGE);
-        subwayGraph.addRoute("East", "Southeast", 2, Color.ORANGE);
-        subwayGraph.addRoute("South", "Southeast", 1, Color.PURPLE);
-        subwayGraph.addRoute("South", "Southwest", 1, Color.PURPLE);
-        subwayGraph.addRoute("West", "Northwest", 2, Color.BROWN);
-        subwayGraph.addRoute("West", "Southwest", 2, Color.BROWN);
+        trolleyGraph.addRoute("Central", "North", 3, Color.RED);
+        trolleyGraph.addRoute("Central", "South", 4, Color.RED);
+        trolleyGraph.addRoute("Central", "East", 2, Color.BLUE);
+        trolleyGraph.addRoute("Central", "West", 2, Color.BLUE);
+        trolleyGraph.addRoute("North", "Northeast", 1, Color.GREEN);
+        trolleyGraph.addRoute("North", "Northwest", 1, Color.GREEN);
+        trolleyGraph.addRoute("East", "Northeast", 2, Color.ORANGE);
+        trolleyGraph.addRoute("East", "Southeast", 2, Color.ORANGE);
+        trolleyGraph.addRoute("South", "Southeast", 1, Color.PURPLE);
+        trolleyGraph.addRoute("South", "Southwest", 1, Color.PURPLE);
+        trolleyGraph.addRoute("West", "Northwest", 2, Color.BROWN);
+        trolleyGraph.addRoute("West", "Southwest", 2, Color.BROWN);
     }
 }
